@@ -2,13 +2,15 @@
 using Market.DAL.Repositories;
 using Market.DTO;
 using Market.Enums;
+using Market.Misc;
 using Market.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Market.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+//[Route("[controller]")]
+[Route("/v1/products")]
 public sealed class ProductsController : ControllerBase
 {
     public ProductsController()
@@ -17,53 +19,81 @@ public sealed class ProductsController : ControllerBase
     }
 
     private ProductsRepository ProductsRepository { get; }
-
-    [HttpGet("GetProductById")]
+//[HttpGet("GetProductById")]
+    [HttpGet("{productId:guid}")]
     public async Task<IActionResult> GetProductByIdAsync(Guid productId)
     {
         var productResult = await ProductsRepository.GetProductAsync(productId);
-        return DbResultIsSuccessful(productResult, out var error)
+        return ParserDbResult.DbResultIsSuccessful(productResult, out var error)
             ? new JsonResult(productResult.Result)
             : error;
     }
-
-    [HttpPost("SearchProducts")]
-    public async Task<IActionResult> SearchProductsAsync(
-        string? productName,
-        SortType? sortType,
-        ProductCategory? category,
-        bool ascending = true,
-        int skip = 0,
-        int take = 50)
+//[HttpPost("SearchProducts")]
+//лучше было для поиска сделать отдельный контроллер search
+    [HttpPost("Search")]
+    public async Task<IActionResult> SearchProductsAsync([FromBody] SearchProductDTO requestInfo)
     {
-        throw new NotImplementedException("Нужно реализовать позже");
+        //throw new NotImplementedException("Нужно реализовать позже");
+        var productsResult = await ProductsRepository.GetProductsAsync(
+            productName:requestInfo.ProductName,
+            productCategory:requestInfo.Category,
+            take:requestInfo.Take,
+            skip:requestInfo.Skip);
+        
+        if (!ParserDbResult.DbResultIsSuccessful(productsResult, out var error))
+            return error;
+        var orderedProducts = OrderProducts(productsResult.Result,requestInfo.SortType, requestInfo.Ascending)
+            .Select(ProductDto.FromModel);
+     
+   
+        return new JsonResult(orderedProducts);
+        
     }
 
-    [HttpPost("GetProductsForSeller")]
+    private IEnumerable<Product> OrderProducts(IEnumerable<Product> source, SortType? sortType, bool asc)
+    {
+        //if (sortType.HasValue)
+        //    return source;
+        if (sortType.Value==SortType.Name)
+            return asc
+                ? source.OrderBy(p => p.Name) 
+                : source.OrderByDescending(p => p.Name);
+        if (sortType.Value==SortType.Price)
+            return asc
+                ? source.OrderBy(p => p.PriceInRubles) 
+                : source.OrderByDescending(p => p.PriceInRubles);
+        return asc
+            ? source.OrderBy(p => p.Name) 
+            : source.OrderByDescending(p => p.Name);
+    }
+
+    //запрос будет Get
+    [HttpGet()]
     public async Task<IActionResult> GetSellerProductsAsync(
-        [FromQuery] Guid sellerId,
+        [FromRoute] Guid sellerId,
+        //[FromQuery] Guid sellerId,
         [FromQuery] int skip = 0,
         [FromQuery] int take = 50)
     {
         var productsResult = await ProductsRepository.GetProductsAsync(sellerId: sellerId, skip: skip, take: take);
-        if (!DbResultIsSuccessful(productsResult, out var error))
+        if (!ParserDbResult.DbResultIsSuccessful(productsResult, out var error))
             return error;
 
         var productDtos = productsResult.Result.Select(ProductDto.FromModel);
         return new JsonResult(productDtos);
     }
-
-    [HttpPost("CreateProduct")]
+//[HttpPost("CreateProduct")]
+    [HttpPost()]
     public async Task<IActionResult> CreateProductAsync([FromBody] Product product)
     {
         var createResult = await ProductsRepository.CreateProductAsync(product);
 
-        return DbResultIsSuccessful(createResult, out var error)
+        return ParserDbResult.DbResultIsSuccessful(createResult, out var error)
             ? new StatusCodeResult(StatusCodes.Status205ResetContent)
             : error;
     }
-
-    [HttpPost("UpdateProductById")]
+//HTTPPOST("UpdateProductById")]
+    [HttpPut("UpdateProductById")]
     public async Task<IActionResult> UpdateProductAsync([FromRoute] Guid productId, [FromBody] UpdateProductRequestDto requestInfo)
     {
         var updateResult = await ProductsRepository.UpdateProductAsync(productId, new ProductUpdateInfo
@@ -74,7 +104,7 @@ public sealed class ProductsController : ControllerBase
             PriceInRubles = requestInfo.PriceInRubles
         });
 
-        return DbResultIsSuccessful(updateResult, out var error)
+        return ParserDbResult.DbResultIsSuccessful(updateResult, out var error)
             ? new StatusCodeResult(StatusCodes.Status404NotFound)
             : error;
     }
@@ -84,30 +114,11 @@ public sealed class ProductsController : ControllerBase
     {
         var deleteResult = await ProductsRepository.DeleteProductAsync(productId);
 
-        return DbResultIsSuccessful(deleteResult, out var error)
-            ? new StatusCodeResult(StatusCodes.Status405MethodNotAllowed)
+        return ParserDbResult.DbResultIsSuccessful(deleteResult, out var error)
+            ? NotFound()//new StatusCodeResult(StatusCodes.Status404NotFound)//Status405MethodNotAllowed
             : error;
     }
 
-    private static bool DbResultIsSuccessful(DbResult dbResult, out IActionResult error) =>
-        DbResultStatusIsSuccessful(dbResult.Status, out error);
-
-    private static bool DbResultIsSuccessful<T>(DbResult<T> dbResult, out IActionResult error) =>
-        DbResultStatusIsSuccessful(dbResult.Status, out error);
-
-    private static bool DbResultStatusIsSuccessful(DbResultStatus status, out IActionResult error)
-    {
-        error = null!;
-        switch (status)
-        {
-            case DbResultStatus.Ok:
-                return true;
-            case DbResultStatus.NotFound:
-                error = new StatusCodeResult(StatusCodes.Status204NoContent);
-                return false;
-            default:
-                error = new StatusCodeResult(StatusCodes.Status102Processing);
-                return false;
-        }
-    }
+    
 }
+

@@ -15,6 +15,8 @@ internal sealed class ProductsRepository
 
     public async Task<DbResult<IReadOnlyCollection<Product>>> GetProductsAsync(
         Guid? sellerId = null, 
+        string? productName= null,
+        ProductCategory? productCategory= null,
         int skip = 0,
         int take = 50)
     {
@@ -23,7 +25,10 @@ internal sealed class ProductsRepository
         // оставил такую реализацию для будущих фильтров
         if (sellerId.HasValue)
             query = query.Where(p => p.SellerId == sellerId.Value);
-
+        if (productName!=null)
+            query = query.Where(p => p.Name == productName);
+        if (productCategory!=null)
+            query = query.Where(p => p.Category == productCategory);
         var products = await query.Skip(skip).Take(take).ToListAsync();
 
         return new DbResult<IReadOnlyCollection<Product>>(products, DbResultStatus.Ok);
@@ -37,6 +42,17 @@ internal sealed class ProductsRepository
             ? new DbResult<Product>(product, DbResultStatus.Ok)
             : new DbResult<Product>(null!, DbResultStatus.NotFound);
     }
+    
+    /*public async Task<DbResult<Product>> GetProductAsync(string productName)
+    {
+        if (productName.HasValue)
+        var product = await _context.Products.FirstOrDefaultAsync(p => p.Name == productName);
+
+        return product != null
+            ? new DbResult<Product>(product, DbResultStatus.Ok)
+            : new DbResult<Product>(null!, DbResultStatus.NotFound);
+    }
+    */
 
     public async Task<DbResult> CreateProductAsync(Product product)
     {
