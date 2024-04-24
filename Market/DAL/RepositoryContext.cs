@@ -13,6 +13,7 @@ internal sealed class RepositoryContext : DbContext
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Cart> Carts => Set<Cart>();
     public DbSet<Order> Orders => Set<Order>();
+    public DbSet<User> Users => Set<User>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -30,6 +31,7 @@ internal sealed class RepositoryContext : DbContext
         modelBuilder.Entity<Product>().HasData(DataInitializer.InitializeProducts());
         //страхуемся для добавления свойства CustomerId, задаем явно первичный ключ
         //modelBuilder.Entity<Cart>().HasKey(item=>item.CustomerId);
+        //трекер не записывал изменения списка т.к. внутрь изменяемого списка не смотрел думал что список не меняется
         modelBuilder.Entity<Cart>().Property(c => c.ProductIds).HasColumnType("TEXT")
             .HasConversion(
                 ids => string.Join(';', ids), 

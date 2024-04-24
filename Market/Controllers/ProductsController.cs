@@ -2,20 +2,24 @@
 using Market.DAL.Repositories;
 using Market.DTO;
 using Market.Enums;
+using Market.Filters;
 using Market.Misc;
 using Market.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Market.Controllers;
 
+//[]
 [ApiController]
 //[Route("[controller]")]
 [Route("/v1/products")]
 public sealed class ProductsController : ControllerBase
 {
+    private ProductValidator _productValidator { get; }
     public ProductsController()
     {
         ProductsRepository = new ProductsRepository();
+        _productValidator = new ProductValidator();
     }
 
     private ProductsRepository ProductsRepository { get; }
@@ -84,8 +88,24 @@ public sealed class ProductsController : ControllerBase
     }
 //[HttpPost("CreateProduct")]
     [HttpPost()]
+    [CheckAuthFilter]
     public async Task<IActionResult> CreateProductAsync([FromBody] Product product)
     {
+        var validationResult=await _productValidator.ValidateAsync(product);
+        if (!validationResult.IsValid)
+        {
+            var errors=new List<object>();
+            foreach (var validationResultError in validationResult)
+            {
+                errors.Add(new
+                {
+                    ErrorCode = validationResultError.ErrorCode,
+                    PropertyName = validationResultError.PropertyName,
+                    Message=validationResultError.ErrorMessage
+                });
+
+            }
+        }
         var createResult = await ProductsRepository.CreateProductAsync(product);
 
         return ParserDbResult.DbResultIsSuccessful(createResult, out var error)
@@ -121,4 +141,6 @@ public sealed class ProductsController : ControllerBase
 
     
 }
+
+
 
