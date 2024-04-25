@@ -12,9 +12,14 @@ namespace Market.DTO
 
         public override bool IsValid(object? value)
         {
-            if (value is not intValue)
+            if (value is not int)
                 return true;
-            return intValue>=0;
+            if (value is int)
+                if ((int) value >= 0)
+                    return true;
+                else 
+                    return false;
+            return false;
         }
     }
 }

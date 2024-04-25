@@ -95,7 +95,7 @@ public sealed class ProductsController : ControllerBase
         if (!validationResult.IsValid)
         {
             var errors=new List<object>();
-            foreach (var validationResultError in validationResult)
+            foreach (var validationResultError in validationResult.Errors)
             {
                 errors.Add(new
                 {

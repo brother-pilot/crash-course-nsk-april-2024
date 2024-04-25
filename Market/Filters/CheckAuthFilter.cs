@@ -44,7 +44,7 @@ namespace Market.Filters;
             var pass = credentials[1];
            
             var userId = UsersRepository.FindUser(login, pass);
-            if (!userId.HasValue)
+            if (userId==null)
             {
                 context.Result = new StatusCodeResult(StatusCodes.Status401Unauthorized);
                 return;
@@ -56,7 +56,7 @@ namespace Market.Filters;
             
             context.HttpContext.Items.Add("user-id",Guid.NewGuid());
 
-            await next;
+           // await next;
             /*var checkResult = _usersRepositore.CheckPass(login, pass);
             if (checkResult != null)
                 await _next(httpContext);

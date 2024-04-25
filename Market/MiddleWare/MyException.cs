@@ -7,9 +7,10 @@ public class MyException:Exception
 {
     public MyException(int v1, string v2)
     {
+        throw new NotImplementedException();
     }
 
-    public void OnException(ExecutionContext context) 
+    /*public void OnException(ExecutionContext context) 
     {
         if (context.Exception is not DbException exception)
             return;
@@ -21,5 +22,5 @@ public class MyException:Exception
         });
 
         StatusCode = exception.StatusCode;
-    }
+    }*/
 }

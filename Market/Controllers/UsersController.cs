@@ -22,7 +22,7 @@ public class UsersController:ControllerBase
     [HttpPost()]
     public async Task<IActionResult> CreateUserAsync([FromBody]UserDto user)
     {
-        var salt = Guid.NewGuid();
+        var salt = Guid.NewGuid().ToString();
         var passHash = GenerateHash(user.Pass+salt);
        
         var result = await UsersRepository.CreateUserAsync(new User()
@@ -31,7 +31,7 @@ public class UsersController:ControllerBase
             Name = user.Name,
             Login=user.Login,
             Pass=passHash,
-            Salt=salt.ToString(),
+            Salt=salt,
             IsSeller=false
         });
 
@@ -55,9 +55,9 @@ public class UsersController:ControllerBase
     }
     
     [HttpGet("/products")]
-    public async Task<IActionResult> GetProductsAsync([FromRoute]Guid sellerId,[FromBody] )
+    public async Task<IActionResult> GetProductsAsync([FromRoute]Guid sellerId,[FromBody] bool onlyCreated, bool all)
     {
-        var result = await OrdersRepository.GetOrdersForSeller(sellerId, onlyCreated, all);
+        var result = await UsersRepository.GetOrdersForSeller(sellerId, onlyCreated, all);
 
         var orderDtos = result.Result.Select(OrderDto.FromModel);
         return new JsonResult(orderDtos);

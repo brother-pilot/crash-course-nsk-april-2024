@@ -35,12 +35,12 @@ public class MyAuthMiddleWare
        if (authHeader.Scheme != "Basic")
        {
            context.Result = new BadRequestResult();//401
-           return Task.CompletedTask;
+           return;// Task.CompletedTask;
        }
        if (string.IsNullOrWhiteSpace(authHeader.Parameter))
        {
            context.Result = new BadRequestResult();
-           return Task.CompletedTask;
+           return;// Task.CompletedTask;
        }
            return;
 
@@ -52,16 +52,20 @@ public class MyAuthMiddleWare
 
        var checkResult = _usersRepository.CheckPass(login, pass);
        if (checkResult != null)
-           await _next(context.httpContext);
+           await _next(context.HttpContext);
        else
-           return context.httpContext.Request. UseExceptionHandler("/Error");//HandleExceptionAsync(StatusCodes.Status401Unauthorized);
+       {
+           context.Result = new BadRequestResult();
+           return;// Task.CompletedTask;
+       }
+           //return context.httpContext.Request. UseExceptionHandler("/Error");//HandleExceptionAsync(StatusCodes.Status401Unauthorized);
        //new StatusCodeResult(StatusCodes.Status205ResetContent)
    }
 
    private object HandleExceptionAsync(int status401Unauthorized)
    {
-       
-       await httpContext.Response.StatusCode=(int)
-       
+       throw new NotImplementedException();
+       //await httpContext.Response.StatusCode=(int)
+
    }
 }

@@ -52,10 +52,16 @@ internal class UsersRepository
 
     public object CheckPass(string login, string pass)
     {
+        //идем в базу данных и проверяем корректность введенных данных
         throw new NotImplementedException();
     }
 
-    public static Guid FindUser(string login, string pass)
+    public static Task<DbResult<User>> FindUser(string login, string pass)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<DbResult<Order>> GetOrdersForSeller(Guid sellerId, bool onlyCreated, bool all)
     {
         throw new NotImplementedException();
     }
