@@ -1,7 +1,9 @@
 ﻿using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
+using Market.DAL;
 using Market.DAL.Repositories;
+using Market.DI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -12,18 +14,25 @@ namespace Market.Filters;
     public class CheckAuthFilter : ActionFilterAttribute,IAsyncActionFilter
     {
         //private readonly RequestDelegate _next;
-        private readonly UsersRepository _usersRepositore;
+        private readonly IUsersRepository _usersRepositore;
 
         public CheckAuthFilter()
         {
             //_next = next;
-            _usersRepositore = new UsersRepository();
+            _usersRepositore = new UsersRepository(new RepositoryContext());
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var authHeader = AuthenticationHeaderValue.Parse(context.HttpContext.Request.Headers.Authorization);// Basic Login;
+            AuthenticationHeaderValue.TryParse(context.HttpContext.Request.Headers.Authorization, out var authHeader);// Basic Login;
 
+            if (authHeader==null||string.IsNullOrWhiteSpace(authHeader.Parameter))
+            {
+                context.HttpContext.Response.Headers.Add("HeaderAuthFilter","nonAuth");
+                context.Result = new StatusCodeResult(StatusCodes.Status401Unauthorized);
+                return;
+            }
+            
             if (authHeader.Scheme != "Basic")
             {
                 context.Result = new BadRequestResult();
@@ -31,11 +40,7 @@ namespace Market.Filters;
             }
                 
                 //"401";
-            if (string.IsNullOrWhiteSpace(authHeader.Parameter))
-            {
-                context.Result = new BadRequestResult();
-                return;
-            }
+            
 
             var credentialsBytes = Convert.FromBase64String(authHeader.Parameter);
             var rawCredential = Encoding.UTF8.GetString(credentialsBytes);
@@ -43,7 +48,7 @@ namespace Market.Filters;
             var login = credentials[0];
             var pass = credentials[1];
            
-            var userId = UsersRepository.FindUser(login, pass);
+            var userId = _usersRepositore.FindUser(login, pass);
             if (userId==null)
             {
                 context.Result = new StatusCodeResult(StatusCodes.Status401Unauthorized);
@@ -66,3 +71,5 @@ namespace Market.Filters;
                     
         }
     }
+
+

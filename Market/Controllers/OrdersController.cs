@@ -1,4 +1,5 @@
 ﻿using Market.DAL.Repositories;
+using Market.DI;
 using Market.DTO;
 using Market.Misc;
 using Market.Models;
@@ -10,7 +11,7 @@ namespace Market.Controllers;
 [Route("orders")]
 public class OrdersController: ControllerBase
 {
-    private OrdersRepository OrdersRepository { get; }
+    private IOrdersRepository OrdersRepository { get; }
     
     public OrdersController()
     {

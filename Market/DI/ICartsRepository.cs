@@ -3,7 +3,7 @@ using Market.Models;
 
 namespace Market.DI;
 
-internal interface ICartRepository
+public interface ICartsRepository
 {
     Task<DbResult<Cart>> GetCartAsync(Guid customerId);
     Task<DbResult> AddOrRemoveProductToCartAsync(Guid customerId, Guid productId, bool isRemove);

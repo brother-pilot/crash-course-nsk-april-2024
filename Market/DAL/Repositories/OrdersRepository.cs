@@ -1,10 +1,11 @@
-﻿using Market.DTO;
+﻿using Market.DI;
+using Market.DTO;
 using Market.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Market.DAL.Repositories;
 
-internal class OrdersRepository
+internal class OrdersRepository:IOrdersRepository
 {
     private readonly RepositoryContext _context;
     

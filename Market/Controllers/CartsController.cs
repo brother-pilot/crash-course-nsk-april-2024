@@ -1,5 +1,6 @@
 ﻿using Market.DAL;
 using Market.DAL.Repositories;
+using Market.DI;
 using Market.Misc;
 using Market.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -7,10 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace Market.Controllers;
 
 [ApiController]
-[Route("/customers/{customerId:guid}/cart888")]
+[Route("/customers/{customerId:guid}/cart")]
 public class CartsController:ControllerBase
 {
-    private CartsRepository CartsRepository { get; }
+    private ICartsRepository CartsRepository { get; }
     
     public CartsController()
     {
@@ -18,12 +19,13 @@ public class CartsController:ControllerBase
     }
     
     [HttpGet()]
-    public async Task<IActionResult> GetProductsAsync(Guid customerId)
+    public async Task<IActionResult> GetCartAsync([FromRoute]Guid customerId)
     {
-        var result = await CartsRepository.GetCartAsync(customerId);
+        HttpContext.Request.Headers.Add("CartsControleer","EnterGetCartAsync");
+        var cart = await CartsRepository.GetCartAsync(customerId);
         //GeneralClass.GetResponceFromDB(result,) 
-        return ParserDbResult.DbResultIsSuccessful(result, out var error)
-            ? new JsonResult(result)
+        return ParserDbResult.DbResultIsSuccessful(cart, out var error)
+            ? new JsonResult(cart)
             : error;
             
         /*var productResult = await ProductsRepository.GetProductAsync(customerId);

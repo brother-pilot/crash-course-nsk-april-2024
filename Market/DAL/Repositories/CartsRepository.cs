@@ -1,11 +1,12 @@
-﻿using Market.MiddleWare;
+﻿using Market.DI;
+using Market.MiddleWare;
 using Market.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Market.DAL.Repositories;
 
-internal class CartsRepository
+internal class CartsRepository:ICartsRepository
 {
     private readonly RepositoryContext _context;
     
@@ -16,6 +17,7 @@ internal class CartsRepository
     
     public async Task<DbResult<Cart>> GetCartAsync(Guid customerId)
     {
+        
         var cart = await _context.Carts.FirstOrDefaultAsync(p => p.CustomerId == customerId);
         if (cart == null)
         {

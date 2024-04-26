@@ -1,7 +1,9 @@
 ﻿using System.Net.Http.Headers;
 using System.Reflection.Metadata;
 using System.Text;
+using Market.DAL;
 using Market.DAL.Repositories;
+using Market.DI;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -12,37 +14,40 @@ namespace Market.MiddleWare;
 public class MyAuthMiddleWare
 {
     private readonly RequestDelegate _next;
-    private readonly UsersRepository _usersRepository;
+    private readonly IUsersRepository _usersRepository;
 
     public MyAuthMiddleWare(RequestDelegate next)
     {
         _next = next;
-        _usersRepository = new UsersRepository();
+        _usersRepository = new UsersRepository(new RepositoryContext());
     }
 
-   //public async Task Invoke(HttpContext httpContext)
-   public async Task OnActionExecutionAsync(ActionExecutingContext context,ActionExecutionDelegate next)
+   public async Task Invoke(HttpContext httpContext)
    {
+       
+       MarkPointRespHeader(httpContext, "MyAuthMiddleWare1", "Point1");
        //если такое действие то делаем так
-       if (context.HttpContext.Request.Path != "/products"&&context.HttpContext.Request.Method=="POST")
+       if (httpContext.Request.Path != "/v1/products"&&httpContext.Request.Method=="POST")
        {
-           await _next(context.HttpContext);
+           MarkPointRespHeader(httpContext, "MyAuthMiddleWare2", "PointSkipAuthInMiddle");
+           await _next(httpContext);
            return;
+       }
+       MarkPointRespHeader(httpContext, "MyAuthMiddleWare3", "Point2");
+       
+       AuthenticationHeaderValue.TryParse(httpContext.Request.Headers.Authorization,out AuthenticationHeaderValue? authHeader);// Basic Login;
+
+       if (authHeader==null||string.IsNullOrWhiteSpace(authHeader.Parameter))
+       {
+           httpContext.Response.StatusCode = 401;
+           return;// Task.CompletedTask;
        }
        
-       var authHeader = AuthenticationHeaderValue.Parse(context.HttpContext.Request.Headers.Authorization);// Basic Login;
-
        if (authHeader.Scheme != "Basic")
        {
-           context.Result = new BadRequestResult();//401
+           httpContext.Response.StatusCode = 401;
            return;// Task.CompletedTask;
        }
-       if (string.IsNullOrWhiteSpace(authHeader.Parameter))
-       {
-           context.Result = new BadRequestResult();
-           return;// Task.CompletedTask;
-       }
-           return;
 
        var credentialsBytes = Convert.FromBase64String(authHeader.Parameter);
        var rawCredential = Encoding.UTF8.GetString(credentialsBytes);
@@ -52,10 +57,10 @@ public class MyAuthMiddleWare
 
        var checkResult = _usersRepository.CheckPass(login, pass);
        if (checkResult != null)
-           await _next(context.HttpContext);
+           await _next(httpContext);
        else
        {
-           context.Result = new BadRequestResult();
+           httpContext.Response.StatusCode = 401;
            return;// Task.CompletedTask;
        }
            //return context.httpContext.Request. UseExceptionHandler("/Error");//HandleExceptionAsync(StatusCodes.Status401Unauthorized);
@@ -67,5 +72,14 @@ public class MyAuthMiddleWare
        throw new NotImplementedException();
        //await httpContext.Response.StatusCode=(int)
 
+   }
+
+   private void MarkPointRespHeader(HttpContext httpContext,string header,string point)
+   {
+       httpContext.Response.OnStarting(() =>
+       {
+           httpContext.Response.Headers.Add(header, point);
+           return Task.CompletedTask;
+       });
    }
 }

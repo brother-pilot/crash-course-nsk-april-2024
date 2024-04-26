@@ -1,6 +1,9 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
+using Market.DAL;
 using Market.DAL.Repositories;
+using Market.DI;
 using Market.DTO;
 using Market.Misc;
 using Market.Models;
@@ -12,11 +15,13 @@ namespace Market.Controllers;
 [Route("users")]
 public class UsersController:ControllerBase
 {
-    private UsersRepository UsersRepository { get; }
+    private IUsersRepository UsersRepository { get; }
     
     public UsersController()
     {
-        UsersRepository = new UsersRepository();
+        UsersRepository = new UsersRepository(new RepositoryContext());
+        //HttpContext.Response.Headers.Add("HeaderUsersController", "constructor");
+        //Debug.WriteLine("UsersController, constructor");
     }
     
     [HttpPost()]
@@ -24,13 +29,19 @@ public class UsersController:ControllerBase
     {
         var salt = Guid.NewGuid().ToString();
         var passHash = GenerateHash(user.Pass+salt);
-       
+        HttpContext.Response.Headers.Add("HeaderUsersController", "point1");
+        Debug.WriteLine("UsersController, point1");
+        //HttpStatusCode.Conflict
+        var existUser = UsersRepository.GetUser(user.Login);
+        if (existUser!=null)
+            return new StatusCodeResult(StatusCodes.Status409Conflict);
+        //return new DbResult(StatusCodes.Status409Conflict);
         var result = await UsersRepository.CreateUserAsync(new User()
         {
             Id = user.Id,
             Name = user.Name,
             Login=user.Login,
-            Pass=passHash,
+            PasswordHash=passHash,
             Salt=salt,
             IsSeller=false
         });
@@ -58,9 +69,12 @@ public class UsersController:ControllerBase
     public async Task<IActionResult> GetProductsAsync([FromRoute]Guid sellerId,[FromBody] bool onlyCreated, bool all)
     {
         var result = await UsersRepository.GetOrdersForSeller(sellerId, onlyCreated, all);
-
-        var orderDtos = result.Result.Select(OrderDto.FromModel);
-        return new JsonResult(orderDtos);
+        throw new NotImplementedException();
+        //var orderDtos = result.Result.Select(OrderDto.FromModel);
+        /* return result != null 
+             ? ProductDto.FromModel(product) 
+             : throw ErrorRegistry.NotFound("product", productId);*/
+        //return new JsonResult(orderDtos);
     }
     
     private HMACMD5 _md5 = new HMACMD5();

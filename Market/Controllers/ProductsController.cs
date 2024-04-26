@@ -1,5 +1,6 @@
 ﻿using Market.DAL;
 using Market.DAL.Repositories;
+using Market.DI;
 using Market.DTO;
 using Market.Enums;
 using Market.Filters;
@@ -15,14 +16,17 @@ namespace Market.Controllers;
 [Route("/v1/products")]
 public sealed class ProductsController : ControllerBase
 {
-    private ProductValidator _productValidator { get; }
-    public ProductsController()
+    
+    private IProductsRepository ProductsRepository { get; }
+    private IMainValidator _mainValidator { get; }
+    
+    public ProductsController(IProductsRepository productsRepository,IMainValidator  mainValidator)
     {
-        ProductsRepository = new ProductsRepository();
-        _productValidator = new ProductValidator();
+        ProductsRepository = productsRepository;
+        _mainValidator = mainValidator;
     }
 
-    private ProductsRepository ProductsRepository { get; }
+    
 //[HttpGet("GetProductById")]
     [HttpGet("{productId:guid}")]
     public async Task<IActionResult> GetProductByIdAsync(Guid productId)
@@ -46,15 +50,33 @@ public sealed class ProductsController : ControllerBase
         
         if (!ParserDbResult.DbResultIsSuccessful(productsResult, out var error))
             return error;
-        var orderedProducts = OrderProducts(productsResult.Result,requestInfo.SortType, requestInfo.Ascending)
-            .Select(ProductDto.FromModel);
-     
-   
-        return new JsonResult(orderedProducts);
+        var sorteredProducts = SortProducts(productsResult.Result,requestInfo.SortType, requestInfo.Ascending)
+            .Select(ProductDto.FromModel)
+            .ToList();
+        return new JsonResult(sorteredProducts);
+        
+    }
+    
+    [HttpPost("DifficultSearch")]
+    public async Task<IActionResult> SearchDifficultProductsAsync([FromBody] SearchProductDTO requestInfo)
+    {
+        //throw new NotImplementedException("Нужно реализовать позже");
+        var productsResult = await ProductsRepository.GetProductsAsync(
+            productName:requestInfo.ProductName,
+            productCategory:requestInfo.Category,
+            take:requestInfo.Take,
+            skip:requestInfo.Skip);
+        
+        if (!ParserDbResult.DbResultIsSuccessful(productsResult, out var error))
+            return error;
+        var sorteredProducts = SortProducts(productsResult.Result,requestInfo.SortType, requestInfo.Ascending)
+            .Select(ProductDto.FromModel)
+            .ToList();
+        return new JsonResult(sorteredProducts);
         
     }
 
-    private IEnumerable<Product> OrderProducts(IEnumerable<Product> source, SortType? sortType, bool asc)
+    private IEnumerable<Product> SortProducts(IEnumerable<Product> source, SortType? sortType, bool asc)
     {
         //if (sortType.HasValue)
         //    return source;
@@ -75,7 +97,6 @@ public sealed class ProductsController : ControllerBase
     [HttpGet()]
     public async Task<IActionResult> GetSellerProductsAsync(
         [FromRoute] Guid sellerId,
-        //[FromQuery] Guid sellerId,
         [FromQuery] int skip = 0,
         [FromQuery] int take = 50)
     {
@@ -91,8 +112,8 @@ public sealed class ProductsController : ControllerBase
     [CheckAuthFilter]
     public async Task<IActionResult> CreateProductAsync([FromBody] Product product)
     {
-        var validationResult=await _productValidator.ValidateAsync(product);
-        if (!validationResult.IsValid)
+        _mainValidator.Validate(product);
+        /*if (!validationResult.IsValid)
         {
             var errors=new List<object>();
             foreach (var validationResultError in validationResult.Errors)
@@ -105,7 +126,7 @@ public sealed class ProductsController : ControllerBase
                 });
 
             }
-        }
+        }*/
         var createResult = await ProductsRepository.CreateProductAsync(product);
 
         return ParserDbResult.DbResultIsSuccessful(createResult, out var error)
