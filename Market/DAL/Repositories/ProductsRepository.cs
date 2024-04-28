@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 [assembly: InternalsVisibleTo("TestProject1")]
 namespace Market.DAL.Repositories;
 
-public sealed class ProductsRepository:IProductsRepository
+internal sealed class ProductsRepository:IProductsRepository
 {
     private readonly RepositoryContext _context;
 

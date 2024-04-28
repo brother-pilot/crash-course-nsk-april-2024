@@ -12,8 +12,8 @@ namespace Market.Controllers;
 
 //[]
 [ApiController]
-//[Route("[controller]")]
-[Route("/v1/products")]
+[Route("[controller]")]
+//[Route("/v1/products")]
 public sealed class ProductsController : ControllerBase
 {
     
@@ -96,7 +96,7 @@ public sealed class ProductsController : ControllerBase
     //запрос будет Get
     [HttpGet()]
     public async Task<IActionResult> GetSellerProductsAsync(
-        [FromRoute] Guid sellerId,
+        [FromQuery] Guid sellerId,
         [FromQuery] int skip = 0,
         [FromQuery] int take = 50)
     {
