@@ -31,7 +31,7 @@ internal sealed class ProductsRepository:IProductsRepository
             // оставил такую реализацию для будущих фильтров
             if (sellerId.HasValue)
                 query = query.Where(p => 
-    p.SellerId.ToString().Contains(sellerId
+    p.SellerId.ToString().Contains(sellerId 
                                         .Value
                                         .ToString()
                                         .ToLower()
@@ -44,9 +44,11 @@ internal sealed class ProductsRepository:IProductsRepository
 
         var products = await query.Skip(skip).Take(take).ToListAsync();
 
-        return new DbResult<IReadOnlyCollection<Product>>(products, DbResultStatus.Ok);
-        
-        
+        return products != null
+            ? new DbResult<IReadOnlyCollection<Product>>(products, DbResultStatus.Ok)
+            : new DbResult<IReadOnlyCollection<Product>>(null!, DbResultStatus.NotFound);
+
+
     }
 
     public async Task<DbResult<Product>> GetProductAsync(Guid productId)
@@ -56,17 +58,6 @@ internal sealed class ProductsRepository:IProductsRepository
             ? new DbResult<Product>(product, DbResultStatus.Ok)
             : new DbResult<Product>(null!, DbResultStatus.NotFound);
     }
-    
-    /*public async Task<DbResult<Product>> GetProductAsync(string productName)
-    {
-        if (productName.HasValue)
-        var product = await _context.Products.FirstOrDefaultAsync(p => p.Name == productName);
-
-        return product != null
-            ? new DbResult<Product>(product, DbResultStatus.Ok)
-            : new DbResult<Product>(null!, DbResultStatus.NotFound);
-    }
-    */
 
     public async Task<DbResult> CreateProductAsync(Product product)
     {

@@ -14,10 +14,11 @@ builder.Services.AddControllers();
     c.Filters.Add<CheckAuthFilter>();
 });//добавляем фильтры тут*/
 
-
+//builder.Services.AddSingleton<Logger>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//настраиваем DI
 builder.Services.AddDbContext<RepositoryContext>()
     .AddScoped<IUsersRepository, UsersRepository>()
     .AddScoped<IMainValidator, MainValidator>()
@@ -36,26 +37,11 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-//app.Run(ctx=>Task.Run(()=>ctx.Response.Headers.Add("My-Header","123")));
-/*app.Use((ctx,next)=>Task.Run(async () =>
-{
-    ctx.Request.Headers.Add("My-Header2","123");
-    await next(ctx);
-    ctx.Response.Headers.Add("My-Header3toResponce","123");
-    
-}));
-*/
+
 
 //включи middleware
 //app.UseMiddleware<MyAuthMiddleWare>();
 
-/*app.Map("/ggg",(ctx,next)=>Task.Run(async () =>
-{
-    ctx.Request.Headers.Add("My-Header2","123");
-    await next(ctx);
-    ctx.Response.Headers.Add("My-Header3toResponce","123");
-    
-}));*/
-//app.Run(handler=>Task.Run(()=context.Req));
+
 app.Run();
 

@@ -1,0 +1,197 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|c:\\users\\kos\\source\\repos\\crash-course-nsk-april-2024\\market\\dal\\repositories\\cartsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|solutionrelative:market\\dal\\repositories\\cartsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|c:\\users\\kos\\source\\repos\\crash-course-nsk-april-2024\\market\\controllers\\cartscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|solutionrelative:market\\controllers\\cartscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|c:\\users\\kos\\source\\repos\\crash-course-nsk-april-2024\\market\\dal\\repositories\\ordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|solutionrelative:market\\dal\\repositories\\ordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|c:\\users\\kos\\source\\repos\\crash-course-nsk-april-2024\\market\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|solutionrelative:market\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|c:\\users\\kos\\source\\repos\\crash-course-nsk-april-2024\\market\\dal\\repositories\\usersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|solutionrelative:market\\dal\\repositories\\usersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|c:\\users\\kos\\source\\repos\\crash-course-nsk-april-2024\\market\\di\\iproductsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|solutionrelative:market\\di\\iproductsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|c:\\users\\kos\\source\\repos\\crash-course-nsk-april-2024\\market\\di\\imainvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|solutionrelative:market\\di\\imainvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|c:\\users\\kos\\source\\repos\\crash-course-nsk-april-2024\\market\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|solutionrelative:market\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|c:\\users\\kos\\source\\repos\\crash-course-nsk-april-2024\\market\\filters\\checkauthfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49C3DCB0-2273-433A-AB53-1A7F702F661B}|Market\\Market.csproj|solutionrelative:market\\filters\\checkauthfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CartsRepository.cs",
+              "DocumentMoniker": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\DAL\\Repositories\\CartsRepository.cs",
+              "RelativeDocumentMoniker": "Market\\DAL\\Repositories\\CartsRepository.cs",
+              "ToolTip": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\DAL\\Repositories\\CartsRepository.cs",
+              "RelativeToolTip": "Market\\DAL\\Repositories\\CartsRepository.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAFcAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-29T07:56:14.715Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CartsController.cs",
+              "DocumentMoniker": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\Controllers\\CartsController.cs",
+              "RelativeDocumentMoniker": "Market\\Controllers\\CartsController.cs",
+              "ToolTip": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\Controllers\\CartsController.cs",
+              "RelativeToolTip": "Market\\Controllers\\CartsController.cs",
+              "ViewState": "AQIAACkAAAAAAAAAAAAwwDsAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-29T07:56:13.35Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\Program.cs",
+              "RelativeDocumentMoniker": "Market\\Program.cs",
+              "ToolTip": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\Program.cs",
+              "RelativeToolTip": "Market\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-29T11:14:59.078Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OrdersRepository.cs",
+              "DocumentMoniker": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\DAL\\Repositories\\OrdersRepository.cs",
+              "RelativeDocumentMoniker": "Market\\DAL\\Repositories\\OrdersRepository.cs",
+              "ToolTip": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\DAL\\Repositories\\OrdersRepository.cs",
+              "RelativeToolTip": "Market\\DAL\\Repositories\\OrdersRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAcAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-29T07:57:26.354Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UsersRepository.cs",
+              "DocumentMoniker": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\DAL\\Repositories\\UsersRepository.cs",
+              "RelativeDocumentMoniker": "Market\\DAL\\Repositories\\UsersRepository.cs",
+              "ToolTip": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\DAL\\Repositories\\UsersRepository.cs",
+              "RelativeToolTip": "Market\\DAL\\Repositories\\UsersRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-28T13:25:41.009Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IProductsRepository.cs",
+              "DocumentMoniker": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\DI\\IProductsRepository.cs",
+              "RelativeDocumentMoniker": "Market\\DI\\IProductsRepository.cs",
+              "ToolTip": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\DI\\IProductsRepository.cs",
+              "RelativeToolTip": "Market\\DI\\IProductsRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-29T07:58:03.866Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "IMainValidator.cs",
+              "DocumentMoniker": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\DI\\IMainValidator.cs",
+              "RelativeDocumentMoniker": "Market\\DI\\IMainValidator.cs",
+              "ToolTip": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\DI\\IMainValidator.cs",
+              "RelativeToolTip": "Market\\DI\\IMainValidator.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-29T07:57:36.815Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Market\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Market\\Controllers\\UsersController.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-28T13:24:54.154Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CheckAuthFilter.cs",
+              "DocumentMoniker": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\Filters\\CheckAuthFilter.cs",
+              "RelativeDocumentMoniker": "Market\\Filters\\CheckAuthFilter.cs",
+              "ToolTip": "C:\\Users\\kos\\source\\repos\\crash-course-nsk-april-2024\\Market\\Filters\\CheckAuthFilter.cs",
+              "RelativeToolTip": "Market\\Filters\\CheckAuthFilter.cs",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAowAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-28T10:48:54.161Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

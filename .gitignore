@@ -7,3 +7,4 @@ riderModule.iml
 appdata.db
 appdata.db-shm
 appdata.db-wal
+*.jfm

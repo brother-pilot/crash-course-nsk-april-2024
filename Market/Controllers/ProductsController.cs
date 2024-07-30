@@ -12,7 +12,7 @@ namespace Market.Controllers;
 
 //[]
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]")]//тогда в адрес берет первую часть названия контроллера
 //[Route("/v1/products")]
 public sealed class ProductsController : ControllerBase
 {

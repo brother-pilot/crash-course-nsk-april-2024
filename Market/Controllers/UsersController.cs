@@ -5,6 +5,7 @@ using Market.DAL;
 using Market.DAL.Repositories;
 using Market.DI;
 using Market.DTO;
+using Market.Helpers;
 using Market.Misc;
 using Market.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,15 +21,14 @@ public class UsersController:ControllerBase
     public UsersController()
     {
         UsersRepository = new UsersRepository(new RepositoryContext());
-        //HttpContext.Response.Headers.Add("HeaderUsersController", "constructor");
-        //Debug.WriteLine("UsersController, constructor");
     }
     
     [HttpPost()]
+    //Task<IActionResult> - ожидаем получить задачу у которой возращаемый тип будет IActionResult
     public async Task<IActionResult> CreateUserAsync([FromBody]UserDto user)
     {
         var salt = Guid.NewGuid().ToString();
-        var passHash = GenerateHash(user.Pass+salt);
+        var passHash = PasswordHelper.GetPasswordHash(user.Pass,salt);
         HttpContext.Response.Headers.Add("HeaderUsersController", "point1");
         Debug.WriteLine("UsersController, point1");
         //HttpStatusCode.Conflict
@@ -77,14 +77,6 @@ public class UsersController:ControllerBase
         //return new JsonResult(orderDtos);
     }
     
-    private HMACMD5 _md5 = new HMACMD5();
-
-    private string GenerateHash(string pass)
-    {
-        var bytes = Encoding.UTF8.GetBytes(pass);
-        var computeHash = _md5.ComputeHash(bytes);
-        return Encoding.Default.GetString(computeHash);
-    }
 }
 
 

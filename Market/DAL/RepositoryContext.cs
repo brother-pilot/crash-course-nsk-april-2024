@@ -28,10 +28,13 @@ internal sealed class RepositoryContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //заполняем БД начальными данными
         var dataInitializer = new DataInitializer();
         modelBuilder.Entity<Product>().HasData(dataInitializer.GetSeedProducts());
-        
+        //определяем параметры БД
+        //страхуемся для добавления свойства CustomerId, задаем явно первичный ключ
         modelBuilder.Entity<Cart>().HasKey(c => c.CustomerId);
+        //т.к. sqlite не может сохранять список, то делаем такой костыль
         modelBuilder.Entity<Cart>().Property(c => c.ProductIds).HasColumnType("TEXT")
             .HasConversion(
                 ids => string.Join(';', ids), 
@@ -40,15 +43,11 @@ internal sealed class RepositoryContext : DbContext
 
         modelBuilder.Entity<User>().HasIndex(s => s.Login).IsUnique();
         modelBuilder.Entity<User>().HasData(dataInitializer.GetSeedUsers());
-        /*modelBuilder.Entity<Product>().HasData(DataInitializer.InitializeProducts());
-        //страхуемся для добавления свойства CustomerId, задаем явно первичный ключ
-        //modelBuilder.Entity<Cart>().HasKey(item=>item.CustomerId);
+        
         //трекер не записывал изменения списка т.к. внутрь изменяемого списка не смотрел думал что список не меняется
-        modelBuilder.Entity<Cart>().Property(c => c.ProductIds).HasColumnType("TEXT")
-            .HasConversion(
-                ids => string.Join(';', ids), 
-                s => s.Split(';', StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToList());
-        //иницилизируем начальными значениями БД
-        modelBuilder.Entity<Cart>().HasData(DataInitializer.InitializeCarts());*/
+        //modelBuilder.Entity<Cart>().Property(c => c.ProductIds).HasColumnType("TEXT")
+        //    .HasConversion(
+        //        ids => string.Join(';', ids), 
+        //        s => s.Split(';', StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToList());
     }
 }
